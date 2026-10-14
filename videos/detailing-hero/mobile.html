@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1080, height=1920">
+    <script src="assets/vendor/gsap.min.js"></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        width: 1080px;
+        height: 1920px;
+        overflow: hidden;
+        background: #050607;
+      }
+      #root {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background: #050607;
+      }
+      /* Full-bleed footage */
+      #panel {
+        position: absolute;
+        inset: 0;
+        overflow: hidden;
+      }
+      .fg-layer {
+        position: absolute;
+        inset: 0;
+      }
+      .fg-layer video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      /* Darker top and bottom bands so a headline and button over them stay readable */
+      #scrim {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(180deg, rgba(5, 6, 7, 0.7) 0%, rgba(5, 6, 7, 0.25) 26%, rgba(5, 6, 7, 0.05) 50%, rgba(5, 6, 7, 0.3) 72%, rgba(5, 6, 7, 0.78) 100%);
+        pointer-events: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="mobile" data-start="0" data-duration="11.4" data-width="1080" data-height="1920" data-fps="30">
+
+      <!-- Full-bleed vertical footage -->
+      <div id="panel">
+        <div id="fg-a" class="fg-layer" data-layout-allow-overflow>
+          <video id="fg-a-vid" class="clip" src="assets/polish-graded.mp4" muted playsinline data-start="0" data-duration="3" data-media-start="1.1" data-playback-rate="0.8" data-track-index="0"></video>
+        </div>
+        <div id="fg-b" class="fg-layer" data-layout-allow-overflow>
+          <video id="fg-b-vid" class="clip" src="assets/polish-graded.mp4" muted playsinline data-start="2.6" data-duration="8.8" data-media-start="5.0" data-playback-rate="0.8" data-track-index="1"></video>
+        </div>
+        <div id="fg-c" class="fg-layer" data-layout-allow-overflow>
+          <video id="fg-c-vid" class="clip" src="assets/polish-graded.mp4" muted playsinline data-start="10.4" data-duration="1" data-media-start="0.3" data-playback-rate="0.8" data-track-index="2"></video>
+        </div>
+      </div>
+
+      <div id="scrim"></div>
+    </div>
+    <script>
+      const tl = gsap.timeline({ paused: true });
+
+      // Shot A (0–3s): slow push-in that continues from the loop tail (shot C)
+      tl.fromTo("#fg-a", { scale: 1.06 }, { scale: 1.1, duration: 3, ease: "none" }, 0);
+
+      // Shot B dissolves in over A (2.6–3.0s), then pushes in slowly
+      tl.fromTo("#fg-b", { opacity: 0 }, { opacity: 1, duration: 0.4, ease: "sine.inOut" }, 2.6);
+      tl.fromTo("#fg-b", { scale: 1.0 }, { scale: 1.08, duration: 8.8, ease: "none" }, 2.6);
+
+      // Loop seam: shot C is the head of shot A; it dissolves in over the last second so
+      // the final frame matches frame 0 exactly (source 1.1s, scale 1.06).
+      tl.fromTo("#fg-c", { opacity: 0 }, { opacity: 1, duration: 1, ease: "sine.inOut" }, 10.4);
+      tl.fromTo("#fg-c", { scale: 1.05 }, { scale: 1.06, duration: 1, ease: "none" }, 10.4);
+
+      window.__timelines["mobile"] = tl;
+    </script>
+  </body>
+</html>

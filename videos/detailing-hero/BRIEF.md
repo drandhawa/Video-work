@@ -29,3 +29,6 @@ Dark premium grade so the paint and polisher stand out and the garage background
 - Silent: website hero videos autoplay muted, so audio is stripped.
 - Avoid ~3.6–5.0s of the source: the operator's bare arm sweeps across and blocks the camera.
 - The background has a white wall sign and cleaning supplies; the grade/vignette should push them back.
+- Source is iPhone HLG HDR; it is tonemapped to SDR Rec.709 (assets/polish-sdr.mp4, regenerable, not committed).
+- The dark grade is baked with ffmpeg into assets/polish-graded.mp4 (sharp layer) and assets/polish-bg.mp4 (blurred fill), because the realtime WebGL grade renders minutes-per-frame in this GPU-less container.
+- GSAP is vendored at assets/vendor/gsap.min.js because the render browser cannot reach cdn.jsdelivr.net here.

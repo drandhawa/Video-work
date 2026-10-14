@@ -1,9 +1,9 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=1920, height=1080" />
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1920, height=1080">
+    <script src="assets/vendor/gsap.min.js"></script>
     <style>
       * {
         margin: 0;
@@ -16,40 +16,100 @@
         width: 1920px;
         height: 1080px;
         overflow: hidden;
-        background: #0a0a0a;
+        background: #050607;
       }
       #root {
+        position: relative;
         width: 100%;
         height: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+        overflow: hidden;
+        background: #050607;
       }
-      #title {
-        color: #f4f4f5;
-        font-size: 72px;
-        font-weight: 600;
-        letter-spacing: -0.03em;
+      /* Blurred full-bleed fill behind the sharp vertical panel */
+      .bg-layer {
+        position: absolute;
+        inset: -60px;
+      }
+      .bg-layer video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      /* Sharp vertical panel, right of center so the left stays calm for the site headline */
+      #panel {
+        position: absolute;
+        top: 0;
+        left: 1036px;
+        width: 608px;
+        height: 1080px;
+        overflow: hidden;
+        -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 90px, #000 518px, transparent 608px);
+        mask-image: linear-gradient(90deg, transparent 0, #000 90px, #000 518px, transparent 608px);
+      }
+      .fg-layer {
+        position: absolute;
+        inset: 0;
+      }
+      .fg-layer video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      /* Darken the left side so a headline over it stays readable */
+      #scrim {
+        position: absolute;
+        inset: 0;
+        background:
+          linear-gradient(90deg, rgba(5, 6, 7, 0.82) 0%, rgba(5, 6, 7, 0.55) 38%, rgba(5, 6, 7, 0.12) 62%, rgba(5, 6, 7, 0.35) 100%),
+          linear-gradient(180deg, rgba(5, 6, 7, 0.35) 0%, rgba(5, 6, 7, 0) 22%, rgba(5, 6, 7, 0) 78%, rgba(5, 6, 7, 0.45) 100%);
+        pointer-events: none;
       }
     </style>
   </head>
   <body>
-    <div
-      id="root"
-      data-composition-id="main"
-      data-start="0"
-      data-duration="10"
-      data-width="1920"
-      data-height="1080"
-    >
-      <h1 id="title" class="clip" data-start="0" data-duration="10" data-track-index="0">Title</h1>
+    <div data-hf-id="hf-0isu" id="root" data-composition-id="main" data-start="0" data-duration="11.4" data-width="1920" data-height="1080" data-fps="30">
+      <!-- Background (blurred) copies -->
+      <div data-hf-id="hf-u0gw" id="bg-a" class="bg-layer" data-layout-allow-overflow>
+        <video data-hf-id="hf-6d7x" id="bg-a-vid" class="clip" src="assets/polish-bg.mp4" muted playsinline data-start="0" data-duration="3" data-media-start="1.1" data-playback-rate="0.8" data-track-index="0"></video>
+      </div>
+      <div data-hf-id="hf-4vyj" id="bg-b" class="bg-layer" data-layout-allow-overflow>
+        <video data-hf-id="hf-zauv" id="bg-b-vid" class="clip" src="assets/polish-bg.mp4" muted playsinline data-start="2.6" data-duration="8.8" data-media-start="5.0" data-playback-rate="0.8" data-track-index="1"></video>
+      </div>
+      <div data-hf-id="hf-0xui" id="bg-c" class="bg-layer" data-layout-allow-overflow>
+        <video data-hf-id="hf-t7cz" id="bg-c-vid" class="clip" src="assets/polish-bg.mp4" muted playsinline data-start="10.4" data-duration="1" data-media-start="0.3" data-playback-rate="0.8" data-track-index="2"></video>
+      </div>
+
+      <!-- Sharp vertical panel -->
+      <div data-hf-id="hf-zk0l" id="panel">
+        <div data-hf-id="hf-pev4" id="fg-a" class="fg-layer" data-layout-allow-overflow>
+          <video data-hf-id="hf-a9h6" id="fg-a-vid" class="clip" src="assets/polish-graded.mp4" muted playsinline data-start="0" data-duration="3" data-media-start="1.1" data-playback-rate="0.8" data-track-index="3"></video>
+        </div>
+        <div data-hf-id="hf-0acr" id="fg-b" class="fg-layer" data-layout-allow-overflow>
+          <video data-hf-id="hf-srr6" id="fg-b-vid" class="clip" src="assets/polish-graded.mp4" muted playsinline data-start="2.6" data-duration="8.8" data-media-start="5.0" data-playback-rate="0.8" data-track-index="4"></video>
+        </div>
+        <div data-hf-id="hf-wc8q" id="fg-c" class="fg-layer" data-layout-allow-overflow>
+          <video data-hf-id="hf-04yo" id="fg-c-vid" class="clip" src="assets/polish-graded.mp4" muted playsinline data-start="10.4" data-duration="1" data-media-start="0.3" data-playback-rate="0.8" data-track-index="5"></video>
+        </div>
+      </div>
+
+      <div data-hf-id="hf-wmg9" id="scrim"></div>
     </div>
     <script>
       const tl = gsap.timeline({ paused: true });
-      // Example: tl.fromTo("#title", { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.6 }, 0);
+
+      // Shot A (0–3s): slow push-in that continues from the loop tail (shot C)
+      tl.fromTo(["#fg-a", "#bg-a"], { scale: 1.06 }, { scale: 1.1, duration: 3, ease: "none" }, 0);
+
+      // Shot B dissolves in over A (2.6–3.0s), then pushes in slowly
+      tl.fromTo(["#fg-b", "#bg-b"], { opacity: 0 }, { opacity: 1, duration: 0.4, ease: "sine.inOut" }, 2.6);
+      tl.fromTo(["#fg-b", "#bg-b"], { scale: 1.0 }, { scale: 1.08, duration: 8.8, ease: "none" }, 2.6);
+
+      // Loop seam: shot C is the head of shot A; it dissolves in over the last second so
+      // the final frame matches frame 0 exactly (source 1.1s, scale 1.06).
+      tl.fromTo(["#fg-c", "#bg-c"], { opacity: 0 }, { opacity: 1, duration: 1, ease: "sine.inOut" }, 10.4);
+      tl.fromTo(["#fg-c", "#bg-c"], { scale: 1.05 }, { scale: 1.06, duration: 1, ease: "none" }, 10.4);
+
       window.__timelines["main"] = tl;
-      tl.seek(0);
     </script>
   </body>
 </html>

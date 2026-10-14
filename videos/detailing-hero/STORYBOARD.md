@@ -8,7 +8,7 @@ mode: collaborative
 ---
 
 ## Frame 1 — Quarter-panel polish
-- status: outline
+- status: animated
 - src: index.html
 - duration: 4s
 - transition_in: crossfade (loop seam from Frame 2)
@@ -18,7 +18,7 @@ mode: collaborative
 Opens on the most graphic shot: the pad turning against dark metallic paint. Slow push-in (scale 1.00→1.05).
 
 ## Frame 2 — Roof-line pass
-- status: outline
+- status: animated
 - src: index.html
 - duration: 7s
 - transition_in: soft dissolve (0.4s)
